@@ -172,12 +172,14 @@
         body.dark-mode .form-control::placeholder {
           color: #bbb;
         }
+
+
     </style>
 </head>
 <body>
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="fw-bold">🚀 Walkie-Talkie Chat</h2>
+        <h2 class="fw-bold">Walkie-Talkie</h2>
         <div class="form-check form-switch">
             <input class="form-check-input" type="checkbox" id="themeToggle" />
             <label class="form-check-label" for="themeToggle">Dark Mode</label>
@@ -282,14 +284,35 @@
       }, 4000);
     }
 
+
+
     // Toggle dark mode
     const toggleSwitch = document.getElementById('themeToggle');
     toggleSwitch.addEventListener('change', () => {
       document.body.classList.toggle('dark-mode');
     });
 
+    function applySavedTheme(){
+        const isDark = localStorage.getItem('theme') == 'dark';
+        document.body.classList.toggle('dark-mode', isDark);
+        document.getElementById('themeToggle').checked = isDark;
+    }
+    document.getElementById('themeToggle').addEventListener('change', function () {
+        if (this.checked) {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark');
+        }else{
+              document.body.classList.remove('dark-mode');
+              localStorage.setItem('theme', 'light');
+        }
+    });
+
     document.getElementById("sendMessage").onclick = sendMessage;
-    window.onload = connect;
+    window.onload = () => {
+        applySavedTheme();
+        connect();
+    }
+
 </script>
 
 <!-- Bootstrap Bundle for dismiss buttons -->
